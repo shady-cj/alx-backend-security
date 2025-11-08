@@ -68,14 +68,17 @@ TEMPLATES = [
         },
     },
 ]
+
+
+
+
+
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "unique-super-secret",    # just an identifier string
-        "TIMEOUT": 60 * 60,                   # optional default => 1 hour
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
     }
 }
-
 
 WSGI_APPLICATION = "ip_tracking.wsgi.application"
 
@@ -121,6 +124,24 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+CELERY_BEAT_SCHEDULE = {
+    # example task every 10 minutes
+    'my_periodic_task': {
+        'task': 'ip_tracking.tasks.check_for_suspicious_ips',
+        'schedule': 60 * 24,  # 1 hour
+        # 'args': (arg1, arg2),  # optional
+    },
+}
+
+
+# Celery Configuration
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0" 
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

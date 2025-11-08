@@ -1,2 +1,3 @@
 django-ip-geolocation
 django-ratelimit
+celery
