@@ -47,6 +47,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django_ip_geolocation.middleware.IpGeolocationMiddleware',
     "ip_tracking.middleware.RequestLoggingMiddleware"
 ]
 
@@ -67,6 +68,14 @@ TEMPLATES = [
         },
     },
 ]
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-super-secret",    # just an identifier string
+        "TIMEOUT": 60 * 60,                   # optional default => 1 hour
+    }
+}
+
 
 WSGI_APPLICATION = "ip_tracking.wsgi.application"
 

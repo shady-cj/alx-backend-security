@@ -5,6 +5,8 @@ class RequestLog(models.Model):
     ip_address = models.CharField(max_length=20)
     timestamp = models.DateTimeField()
     path = models.CharField(max_length=50)
+    country = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
 
 
 class BlockedIPs(models.Model):
